@@ -31,6 +31,9 @@ export default {
 
     data() {
         return {
+
+            timer: null,
+            since: 0,
             cardId: 'XmD8zN5KjiSVBDS3O24Rw1B65C8dtbDy',
             messages: []
         }
@@ -40,14 +43,46 @@ export default {
         sendMessage(message) {
             message.author = 'Вы';
             this.messages.push(message);
+        },
+        async updateMessages() {
+            const retrievedMessages = await messageService.get(this.cardId, this.since);
+            this.since = new Date().getTime();
+            const merged = [];
+            let i = 0;
+            let j = 0;
+            while (i < this.messages.length && j < retrievedMessages.length) {
+                const a = this.messages[i];
+                const b = retrievedMessages[j];
+                if (a.createdAt <= b.createdAt) {
+                    merged.push(a);
+                    i++;
+                    if (a.createdAt == b.createdAt) {
+                        j++;
+                    }
+                } else {
+                    merged.push(b);
+                    j++
+                }
+            }
+            while (i < this.messages.length) {
+                merged.push(this.messages[i++]);
+            }
+            while (j < retrievedMessages.length) {
+                merged.push(retrievedMessages[j++]);
+            }
+            this.messages = merged;
         }
     },
 
     async mounted() {
         const cardId = this.$route.query.cardId;
         console.log('Card ID = ' + cardId);
-        const retrievedMessages = await messageService.get(cardId);
-        this.messages.push(...retrievedMessages);
+        this.updateMessages();
+        this.timer = setInterval(this.updateMessages, 10000);
+    },
+
+    beforeUnmount () {
+      clearInterval(this.times);
     }
 }
 

@@ -15,7 +15,8 @@ const get = async (cardId, since) => {
     const response = await axios.get(apiUrl, {
         params: {
             cardId: cardId,
-            initiatorId: initiatorId
+            initiatorId: initiatorId,
+            since: since
         }
     });
     return response.data;
