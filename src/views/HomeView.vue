@@ -76,7 +76,7 @@ export default {
 
     async mounted() {
         this.cardId = this.$route.query.cardId;
-        console.log('Card ID = ' + cardId);
+        console.log('Card ID = ' + this.cardId);
         this.updateMessages();
         this.timer = setInterval(this.updateMessages, 10000);
     },
