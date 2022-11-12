@@ -9,7 +9,7 @@
           :inbound='message.inbound'
           :createdAt=message.createdAt
       />
-      <div id="scrollMarker" class="scroll-marker">Scroll marker</div>
+      <div id="scrollMarker" class="scroll-marker"></div>
     </div>
 </template>
 
