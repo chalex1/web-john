@@ -34,7 +34,7 @@ export default {
 
             timer: null,
             since: 0,
-            cardId: 'XmD8zN5KjiSVBDS3O24Rw1B65C8dtbDy',
+            cardId: '',
             messages: []
         }
     },
@@ -75,7 +75,7 @@ export default {
     },
 
     async mounted() {
-        const cardId = this.$route.query.cardId;
+        this.cardId = this.$route.query.cardId;
         console.log('Card ID = ' + cardId);
         this.updateMessages();
         this.timer = setInterval(this.updateMessages, 10000);
